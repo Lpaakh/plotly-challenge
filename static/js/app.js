@@ -1,13 +1,39 @@
 // Read in data using d3
+var url = "https://raw.githubusercontent.com/Lpaakh/plotly-challenge/master/static/js/samples.json"
 
-d3.json("samples.json", function(data) {
+var result = {};
+
+function populateDropdown() {
+    d3.select("#selDataset")
+        .selectAll("*")
+        .remove();
+    d3.select("#selDataset")
+        .selectAll('option')
+        .data(result.names)
+        .enter().append("option")
+        .text(function(d) {
+            return d;
+        });
+}
+
+function optionChanged(id){
+    result = data.samples.id; 
+};
+
+d3.json(url).then( function(data) {
+    console.log(data);
+    console.log(data.samples.id);
+    result = data;
+    populateDropdown();
     var sample_values = data.samples.sample_values;
     var otu_ids = data.samples.otu_ids;
     var otu_labels = data.samples.otu_labels;
-     // Print the names of the columns
-     console.log(data.column_names);
-     // Print the data for each day
-     console.log(data.data);
+    var ids = data.samples.ids;
+     //console.log(data.names);
+     
+     var bar_otus = data.samples
+        .filter(d == d)
+        .sort(function(a, b) {return a-b}); 
 
      var trace1 = {
          type: 'bar',
