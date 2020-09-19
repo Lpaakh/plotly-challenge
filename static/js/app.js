@@ -30,10 +30,13 @@ d3.json(url).then( function(data) {
     var otu_labels = data.samples.otu_labels;
     var ids = data.samples.ids;
      //console.log(data.names);
-     
-     var bar_otus = data.samples
-        .filter(d == d)
-        .sort(function(a, b) {return a-b}); 
+     //optionChanged();
+     //var graph_otus = data.samples.filter(function (e) {
+         //return e.otu_ids;
+     //});
+        //.sort(function(a, b) {return a-b}); 
+        //.indexOf(d == (0,9);
+        //.map(otu_id =>)
 
      var trace1 = {
          type: 'bar',
