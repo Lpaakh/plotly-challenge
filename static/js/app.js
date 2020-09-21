@@ -19,11 +19,33 @@ function populateDropdown() {
         });
 }
 
+
+// Populate the metadata section titled demographic info 
+function populateMetaData(id) {
+    var chosenMetaInfo = result.metadata.filter(function (metadata) {
+        return metadata.id === parseInt(id)
+    });
+    //console.log(d3.select("#sample-metadata"));
+    // d3.select("#sample-metadata")
+    //     .selectAll("*")
+    //     .remove();
+    var temp = d3.select("#sample-metadata")
+        .selectAll("div")
+        .data(chosenMetaInfo)
+        .enter()
+        .append("div")
+        .text(function(d,i){
+            console.log(d);
+          return d.ethnicity;
+        });
+};
+
+
+// Create function for the optionChanged div to populate two plots
 function optionChanged(id){
     var chosenSample = result.samples.filter(function (sample) {
         return sample.id === id
     })[0];
-    console.log(chosenSample);
 
     var top10sampleValues = [];
     chosenSample.sample_values
@@ -68,18 +90,18 @@ function optionChanged(id){
         text: chosenSample.otu_labels
     }
     Plotly.newPlot('bubble', [trace2])
+
+    
+
+    populateMetaData(id);
+
 };
 
 d3.json(url).then( function(data) {
-    console.log(data);
     result = data;
     populateDropdown();
-    var sample_values = data.samples.sample_values;
-    var otu_ids = data.samples.otu_ids;
-     console.log(data.names);
     
     // Select ID name value from the dropdown menu
     var inputId = d3.select("#selDataset").property("value");
-
     optionChanged(inputId);
 });
