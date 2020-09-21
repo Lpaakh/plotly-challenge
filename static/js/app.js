@@ -19,25 +19,28 @@ function populateDropdown() {
         });
 }
 
-
 // Populate the metadata section titled demographic info 
 function populateMetaData(id) {
+    d3.select("#sample-metadata")
+        .selectAll("*")
+        .remove();
     var chosenMetaInfo = result.metadata.filter(function (metadata) {
         return metadata.id === parseInt(id)
-    });
-    //console.log(d3.select("#sample-metadata"));
-    // d3.select("#sample-metadata")
-    //     .selectAll("*")
-    //     .remove();
-    var temp = d3.select("#sample-metadata")
-        .selectAll("div")
-        .data(chosenMetaInfo)
-        .enter()
-        .append("div")
-        .text(function(d,i){
-            console.log(d);
-          return d.ethnicity;
-        });
+    })[0];
+
+    var mainContainerDiv = document.getElementById("sample-metadata");
+    var metadataDiv = document.createElement("metadataDiv")
+    metadataDiv.innerHTML = 
+    'id: ' + chosenMetaInfo.id + '<br/>' +
+    'ethnicity: ' + chosenMetaInfo.ethnicity + '<br/>' +
+    'gender: ' + chosenMetaInfo.gender + '<br/>' +
+    'age: ' + chosenMetaInfo.age + '<br/>' +
+    'age: ' + chosenMetaInfo.age + '<br/>' +
+    'location: ' + chosenMetaInfo.location + '<br/>' +
+    'bbtype: ' + chosenMetaInfo.bbtype + '<br/>' +
+    'wfreq: ' + chosenMetaInfo.wfreq + '<br/>';
+
+    mainContainerDiv.appendChild(metadataDiv);
 };
 
 
@@ -92,7 +95,6 @@ function optionChanged(id){
     Plotly.newPlot('bubble', [trace2])
 
     
-
     populateMetaData(id);
 
 };
