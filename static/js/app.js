@@ -1,8 +1,11 @@
+
+
 // Read in data using d3
 var url = "https://raw.githubusercontent.com/Lpaakh/plotly-challenge/master/static/js/samples.json"
 
 var result = {};
 
+//Populate possible name ID options for the user
 function populateDropdown() {
     d3.select("#selDataset")
         .selectAll("*")
@@ -17,33 +20,66 @@ function populateDropdown() {
 }
 
 function optionChanged(id){
-    result = data.samples.id; 
+    var chosenSample = result.samples.filter(function (sample) {
+        return sample.id === id
+    })[0];
+    console.log(chosenSample);
+
+    var top10sampleValues = [];
+    chosenSample.sample_values
+        .slice(0, 10)
+        .map(sample_value => top10sampleValues.push(sample_value));
+
+    var top10otuIds = [];
+    chosenSample.otu_ids
+        .slice(0, 10)
+        .map(otu_id => top10otuIds.push("OTU ID " + otu_id));
+
+    var top10otuLabels = [];
+    chosenSample.otu_labels
+        .slice(0, 10)
+        .map(otu_label => top10otuLabels.push(otu_label));
+        
+    var trace1 = {
+        type: 'bar',
+        x: top10sampleValues,
+        y: top10otuIds,
+        text: top10otuLabels,
+        orientation: 'h'
+    }
+    var layout = {
+        yaxis: {autorange:'reversed'}
+    };
+
+    Plotly.newPlot('bar', [trace1], layout)
+
+// Use sample_values for the marker size.
+// Use otu_ids for the marker colors.
+// Use otu_labels for the text values.
+
+    var trace2 = {
+        x: chosenSample.otu_ids,
+        y: chosenSample.sample_values,
+        mode: 'markers',
+        marker: {
+            size: chosenSample.sample_values,
+            color: chosenSample.otu_ids
+        },
+        text: chosenSample.otu_labels
+    }
+    Plotly.newPlot('bubble', [trace2])
 };
 
 d3.json(url).then( function(data) {
     console.log(data);
-    console.log(data.samples.id);
     result = data;
     populateDropdown();
     var sample_values = data.samples.sample_values;
     var otu_ids = data.samples.otu_ids;
-    var otu_labels = data.samples.otu_labels;
-    var ids = data.samples.ids;
-     //console.log(data.names);
-     //optionChanged();
-     //var graph_otus = data.samples.filter(function (e) {
-         //return e.otu_ids;
-     //});
-        //.sort(function(a, b) {return a-b}); 
-        //.indexOf(d == (0,9);
-        //.map(otu_id =>)
+     console.log(data.names);
+    
+    // Select ID name value from the dropdown menu
+    var inputId = d3.select("#selDataset").property("value");
 
-     var trace1 = {
-         type: 'bar',
-         x: sample_values,
-         y: otu_ids,
-         orientation: 'h'
-     };
-
-     Plotly.newPlot('myDiv', trace1)
+    optionChanged(inputId);
 });
