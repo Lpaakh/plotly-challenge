@@ -1,5 +1,7 @@
 # Plot.ly Homework - Belly Button Biodiversity
 
+[Click here to view Laura Paakh May's dashboard](https://lpaakh.github.io/plotly-challenge/index.html)
+
 ![Bacteria by filterforge.com](Images/bacteria.jpg)
 
 In this challenge, Laura Paakh May built an interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels.
